@@ -3,12 +3,14 @@ package darko.test.msscbeerservice.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import darko.test.msscbeerservice.web.model.BeerDto;
+import darko.test.msscbeerservice.web.model.BeerStyleEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +26,14 @@ class BeerControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    BeerDto getValidBeerDto(){
+        return BeerDto.builder()
+                .beerName("My beer")
+                .beerStyle(BeerStyleEnum.ALE)
+                .price(new BigDecimal(2.0))
+                .upc(1214324344343L)
+                .build();
+    }
     @Test
     void getBeer() throws Exception {
 
@@ -34,7 +44,7 @@ class BeerControllerTest {
     @Test
     void saveNewBeer() throws Exception {
 
-        BeerDto beerDto = BeerDto.builder().build();
+        BeerDto beerDto = getValidBeerDto();
 
         String beerDtoToJson = objectMapper.writeValueAsString(beerDto);
 
@@ -46,7 +56,7 @@ class BeerControllerTest {
 
     @Test
     void updateBeer() throws Exception {
-        BeerDto beerDto = BeerDto.builder().build();
+        BeerDto beerDto = getValidBeerDto();
 
         String beerDtoToJson = objectMapper.writeValueAsString(beerDto);
 
